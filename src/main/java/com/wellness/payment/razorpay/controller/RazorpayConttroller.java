@@ -28,7 +28,7 @@ public class RazorpayConttroller {
     @GetMapping("/check")
     public ResponseEntity<String> checkInstance(HttpServletResponse response) {
         response.addHeader("X-Container-Id", System.getenv("HOSTNAME"));
-        return ResponseEntity.ok("OK");
+        return ResponseEntity.status(HttpStatus.OK).body(response.getHeader("X-Container-Id"));
     }
 
 
