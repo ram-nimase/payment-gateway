@@ -70,7 +70,8 @@ public class RazorpayService {
         options.put("payment_capture",1);
 
         try{
-         orderResponse =orderService.insertOrderStatus(razorpayClient.orders.create(options).toString());
+            orderResponse=razorpayClient.orders.create(options).toString();
+        // orderResponse =orderService.insertOrderStatus(razorpayClient.orders.create(options).toString());
 
         }catch (Exception e){
             e.printStackTrace();
