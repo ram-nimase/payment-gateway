@@ -1,6 +1,7 @@
 package com.wellness.payment.razorpay.controller;
 
 import com.wellness.payment.razorpay.service.RazorpayService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,14 @@ public class RazorpayConttroller {
 
     @Autowired
     private RazorpayService razorpayService;
+
+
+    @GetMapping("/check")
+    public ResponseEntity<String> checkInstance(HttpServletResponse response) {
+        response.addHeader("X-Container-Id", System.getenv("HOSTNAME"));
+        return ResponseEntity.ok("OK");
+    }
+
 
     @GetMapping("/create-order")
     public ResponseEntity<String> createOrder(@RequestParam int amount){
