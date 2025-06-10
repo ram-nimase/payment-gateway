@@ -1,7 +1,10 @@
 package com.wellness.payment.razorpay.controller;
 
 import com.wellness.payment.razorpay.service.RazorpayService;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +24,15 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequestMapping("/api/razorpay")
 public class RazorpayConttroller {
 
+    private static final Logger logger = LogManager.getLogger(RazorpayConttroller.class);
+
     @Autowired
     private RazorpayService razorpayService;
 
+    @PostConstruct
+    public void init() {
+        System.out.println("Running in container: " + System.getenv("HOSTNAME"));
+    }
 
     @GetMapping("/check")
     public ResponseEntity<String> checkInstance(HttpServletResponse response) {
@@ -33,9 +42,13 @@ public class RazorpayConttroller {
 
 
     @GetMapping("/create-order")
-    public ResponseEntity<String> createOrder(@RequestParam int amount){
+    public ResponseEntity<String> createOrder(@RequestParam int amount,HttpServletResponse response){
+        logger.info("Pay Amount::"+amount);
+        logger.info("Host Name::"+System.getenv("HOSTNAME"));
+        String hostname=System.getenv("HOSTNAME");
         try{
             String orderResponse=razorpayService.createOrder(amount);
+            orderResponse="HostName::" +hostname+" "+"orderResponse ::"+orderResponse;
             if(orderResponse !=null){
                 return ResponseEntity.ok(orderResponse);
             }else{
