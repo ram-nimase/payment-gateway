@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   app:
-    image: payment
+    image: payment-gateway
     ports:
       - "8081:9090"
     restart: always
