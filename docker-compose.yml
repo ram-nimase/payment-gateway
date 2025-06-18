@@ -1,6 +1,8 @@
-version: '3'
+version: '3.8'
+
 services:
-    build: ./backend
-    container_name: springboot-backend
+  app:
+    image: payment
     ports:
       - "8081:9090"
+    restart: always
