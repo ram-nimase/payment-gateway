@@ -11,7 +11,12 @@ pipeline {
         git branch: 'main', url: 'https://github.com/ram-nimase/payment-gateway.git'
       }
     }
-
+    stage('Check Docker') {
+          steps {
+            sh 'docker --version'
+            sh 'docker ps'
+         }
+    }
     stage('Build Spring Boot App') {
       steps {
         dir('backend') {
