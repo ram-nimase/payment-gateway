@@ -2,6 +2,7 @@ package com.wellness.payment.razorpay.service;
 
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
+import com.wellness.payment.order.service.OrderService;
 import jakarta.annotation.PostConstruct;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,8 @@ public class RazorpayService {
     private  String keySecret;
    // private final String publicKey;
 
-//    @Autowired
-//    private OrderService orderService;
+    @Autowired
+    private OrderService orderService;
 
 
 //    public RazorpayService(
@@ -69,8 +70,8 @@ public class RazorpayService {
         options.put("payment_capture",1);
 
         try{
-            orderResponse=razorpayClient.orders.create(options).toString();
-        // orderResponse =orderService.insertOrderStatus(razorpayClient.orders.create(options).toString());
+           // orderResponse=razorpayClient.orders.create(options).toString();
+         orderResponse =orderService.insertOrderStatus(razorpayClient.orders.create(options).toString());
 
         }catch (Exception e){
             e.printStackTrace();
