@@ -10,6 +10,7 @@ services:
     depends_on:
       - mongodb
     restart: always
+
   mongodb:
       image: mongo
       container_name: mongodb
@@ -19,7 +20,10 @@ services:
         MONGO_INITDB_ROOT_PASSWORD: mongo_admin
       ports:
         - "27017:27017"
-
+      volumes:
+        - mongo_data:/data/db
+volumes:
+  mongo_data:
 #services:
 #  mongodb:
 #    image: mongo
