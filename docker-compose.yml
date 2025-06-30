@@ -1,47 +1,28 @@
 version: '3.8'
 
 services:
-  app:
-    image: payment-gateway
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo_admin
+      MONGO_INITDB_ROOT_PASSWORD: mongo_admin
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  payment-app:
+    image: prod-payment-gateway
+    container_name: payment-gateway
+    restart: always
+    depends_on:
+      - mongodb
     ports:
       - "8081:9090"
     environment:
-          SPRING_DATA_MONGODB_URI: mongodb://mongo_user:mongo_pass@mongodb:27017/order
-    depends_on:
-      - mongodb
-    restart: always
+      SPRING_DATA_MONGODB_URI: mongodb://mongo_admin:mongo_admin@mongodb:27017/yourdb
 
-  mongodb:
-      image: mongo
-      container_name: mongodb
-      restart: always
-      environment:
-        MONGO_INITDB_ROOT_USERNAME: mongo_admin
-        MONGO_INITDB_ROOT_PASSWORD: mongo_admin
-      ports:
-        - "27017:27017"
-      volumes:
-        - mongo_data:/data/db
 volumes:
   mongo_data:
-#services:
-#  mongodb:
-#    image: mongo
-#    container_name: mongodb
-#    restart: always
-#    environment:
-#      MONGO_INITDB_ROOT_USERNAME: mongo_user
-#      MONGO_INITDB_ROOT_PASSWORD: mongo_pass
-#    ports:
-#      - "27017:27017"
-#
-#  app:
-#    image: prod-payment-gateway
-#    container_name: payment-gateway
-#    restart: always
-#    ports:
-#      - "8082:9090"
-#    environment:
-#      SPRING_DATA_MONGODB_URI: mongodb://mongo_user:mongo_pass@mongodb:27017/yourdb
-#    depends_on:
-#      - mongodb
