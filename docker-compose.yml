@@ -25,7 +25,7 @@ services:
       - "8081:9090"
     environment:
       #SPRING_DATA_MONGODB_URI: mongodb://mongo_admin:mongo_admin@mongodb:27017/order
-      SPRING_DATA_MONGODB_URI: mongodb://order_user:order_pass@mongodb:27017/order
+      SPRING_DATA_MONGODB_URI: mongodb://prod_order_user:prod_order_pass@mongodb:27017/order
 
 volumes:
   mongo_data:
