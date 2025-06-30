@@ -6,12 +6,14 @@ services:
     container_name: mongodb
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: mongo_admin
-      MONGO_INITDB_ROOT_PASSWORD: mongo_admin
+      #MONGO_INITDB_ROOT_USERNAME: mongo_admin
+      #MONGO_INITDB_ROOT_PASSWORD: mongo_admin
+      MONGO_INITDB_DATABASE: order
     ports:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
+      - ./mongo-init:/docker-entrypoint-initdb.d
 
   payment-app:
     image: prod-payment-gateway
@@ -22,7 +24,8 @@ services:
     ports:
       - "8081:9090"
     environment:
-      SPRING_DATA_MONGODB_URI: mongodb://mongo_admin:mongo_admin@mongodb:27017/order
+      #SPRING_DATA_MONGODB_URI: mongodb://mongo_admin:mongo_admin@mongodb:27017/order
+      SPRING_DATA_MONGODB_URI: mongodb://order_user:order_pass@mongodb:27017/order
 
 volumes:
   mongo_data:
